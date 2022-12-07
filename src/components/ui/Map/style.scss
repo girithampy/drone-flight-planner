@@ -1,0 +1,12 @@
+.map-view-container {
+    height: 100%;
+    position: relative;
+    .map-view {
+        height: 100%;
+    }
+    .action-container {
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+    }
+}

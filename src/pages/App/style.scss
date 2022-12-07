@@ -1,0 +1,20 @@
+.app-container {
+    height: 100%;
+    width: 100%;
+    .header-container {
+        height: 60px;
+        background-color: red;
+    }
+    .body-container {
+        display: flex;
+        height : calc(100% - 60px);
+        .side-bar-container {
+            width: 20%;
+            background-color: lightblue;
+        }
+        .map-container {
+            width: 80%;
+        }
+    }
+    
+}
