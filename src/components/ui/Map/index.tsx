@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 // Store
 import { addFlight } from "./../../../store/flights/actions";
@@ -10,10 +9,6 @@ import useGoogleMap from '../../../hooks/useGoogleMap';
 import config from "../../../config";
 
 import './style.scss';
-
-const render = (status: Status) => {
-    return <h1>{status}</h1>;
-};
 
 const Map: React.FC<{}> = () => {
     const dispatch = useStoreDispatch()
@@ -38,9 +33,11 @@ const Map: React.FC<{}> = () => {
 
     const onDone = () => {
         setEnableAddCordinates(false);
-        const _flightCordinates = flightCordinates.slice();
-        dispatch(addFlight(_flightCordinates))
-        setFlightCordinates([])
+        if(flightCordinates.length > 0) {
+            const _flightCordinates = flightCordinates.slice();
+            dispatch(addFlight(_flightCordinates))
+            setFlightCordinates([])
+        }
     }
 
     useEffect(() => {
@@ -55,17 +52,13 @@ const Map: React.FC<{}> = () => {
     
     return (
         <div className="map-view-container">
-            <div className='map-view' ref={ref} />
+            <div className='map-view' ref={ref} data-testid="map-view"/>
             <div className="action-container">
-                {!enableAddCordinates && <button onClick={() => setEnableAddCordinates(true)}>Add flight planner</button>}
-                {enableAddCordinates && <button onClick={onDone}>Done</button>}
+                {!enableAddCordinates && <button onClick={() => setEnableAddCordinates(true)} data-testid="map-add-action">Add flight planner</button>}
+                {enableAddCordinates && <button onClick={onDone} data-testid="map-done-action">Done</button>}
             </div>
         </div>
     );
 }
 
-export default () => (
-    <Wrapper apiKey={config.GOOGLE_API_KEY} render={render}>
-        <Map />
-    </Wrapper>
-)
+export default Map;

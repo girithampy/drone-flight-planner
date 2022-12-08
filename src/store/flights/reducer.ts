@@ -5,7 +5,7 @@ interface Flight {
     name: string;
     cordinates: google.maps.LatLngLiteral[]
 }
-interface Flights {
+export interface Flights {
     total: number;
     currentFlightIndex: number;
     data: Array<Flight>;
@@ -18,7 +18,7 @@ const initialState: Flights = {
     data: []
 };
 
-export default (state = initialState, action: PayloadAction<google.maps.LatLngLiteral[]>) : Flights => {
+export default (state = initialState, action: PayloadAction<google.maps.LatLngLiteral[]>): Flights => {
     switch (action.type) {
         case types.ADD_FLIGHT:
             return {
@@ -33,7 +33,7 @@ export default (state = initialState, action: PayloadAction<google.maps.LatLngLi
         case types.SELECT_FLIGHT:
             return {
                 ...state,
-                currentFlightIndex : Number(action.payload)
+                currentFlightIndex: Number(action.payload)
             }
         default:
             return state;

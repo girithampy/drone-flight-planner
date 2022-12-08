@@ -1,18 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { Provider } from 'react-redux'
+import { Wrapper } from "@googlemaps/react-wrapper";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { Provider } from 'react-redux'
 import store from './store'
+// Config
+import config from "./config";
+import './index.css';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <Provider store={store}>
-    <App />
+    <Wrapper apiKey={config.GOOGLE_API_KEY}>
+      <App />
+    </Wrapper>
   </Provider>
 );
 

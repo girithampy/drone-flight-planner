@@ -6,7 +6,7 @@ import AppPage from "./pages/App";
 
 function App() {
   return (
-    <div className="container">
+    <div className="container" data-testid="container">
       <AppPage />
     </div>
   );
