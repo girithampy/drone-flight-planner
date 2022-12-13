@@ -1,23 +1,30 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 // Store
-import { addFlight } from "./../../../store/flights/actions";
+import { toogleSideBar } from "./../../../store/slices/appSlice";
+import { addFlight, unSelectFlight } from "../../../store/slices/flightsSlice";
 import { useStoreDispatch, useStoreSelector } from "./../../../store/hooks";
 // Google map hook
 import useGoogleMap from '../../../hooks/useGoogleMap';
-// Config
-import config from "../../../config";
-
+// Icon
+import PlusIcon from "../../../icons/svg/plus.svg"
+import CheckIcon from "../../../icons/svg/check.svg"
+// Styles
 import './style.scss';
 
 const Map: React.FC<{}> = () => {
     const dispatch = useStoreDispatch()
+    const appState = useStoreSelector(state => state.appState)
     const state = useStoreSelector(state => state.flights)
     const ref = useRef<HTMLDivElement>(null);
     const [enableAddCordinates, setEnableAddCordinates] = useState<boolean>(false)
     const [flightCordinates, setFlightCordinates] = useState<google.maps.LatLngLiteral[]>([])
-    
 
+    /**
+     * Function will get called when clicked on the map
+     * @param mapsMouseEvent 
+     * @returns 
+     */
     const onMapClicked = (mapsMouseEvent: google.maps.MapMouseEvent) => {
         if (!enableAddCordinates || !mapsMouseEvent.latLng) {
             return;
@@ -31,11 +38,25 @@ const Map: React.FC<{}> = () => {
         onClick : onMapClicked
     });
 
+    /**
+     * Function will enable mode to add cordinates in the map
+     */
+    const enableAddCordinateMode = () => {
+        setEnableAddCordinates(true);
+        setFlightCordinates([])
+        dispatch(unSelectFlight())
+        appState.sideBarOpen && dispatch(toogleSideBar())
+    }
+
+    /**
+     * Function will update the add cordinates to the store
+     */
     const onDone = () => {
         setEnableAddCordinates(false);
         if(flightCordinates.length > 0) {
             const _flightCordinates = flightCordinates.slice();
-            dispatch(addFlight(_flightCordinates))
+            dispatch(addFlight({ cordinates : _flightCordinates }))
+            dispatch(toogleSideBar())
             setFlightCordinates([])
         }
     }
@@ -49,13 +70,17 @@ const Map: React.FC<{}> = () => {
             addFlightPlanCordinates([])
         }
     },[flightCordinates, state.currentFlightIndex, state.data])
-    
+
     return (
         <div className="map-view-container">
             <div className='map-view' ref={ref} data-testid="map-view"/>
             <div className="action-container">
-                {!enableAddCordinates && <button onClick={() => setEnableAddCordinates(true)} data-testid="map-add-action">Add flight planner</button>}
-                {enableAddCordinates && <button onClick={onDone} data-testid="map-done-action">Done</button>}
+                {!enableAddCordinates && <div className='action' data-testid="map-add-action" onClick={enableAddCordinateMode}>
+                    <img src={PlusIcon} />
+                </div>}
+                {enableAddCordinates && <div className='action' data-testid="map-done-action" onClick={onDone}>
+                    <img src={CheckIcon} />
+                </div>}
             </div>
         </div>
     );

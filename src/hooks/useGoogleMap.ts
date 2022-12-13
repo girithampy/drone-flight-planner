@@ -1,33 +1,32 @@
 import { useState, useEffect, RefObject } from 'react';
+// Interface
+import { GoogleMapOptionProps, GoogleMap} from "../interfaces/Hooks";
 
 const mapOptions: google.maps.MapOptions = {
-    zoom: 12,
+    zoom: 13,
     center: { lat: 52.50517435658768, lng: 13.395197426012093 },
-    mapTypeId: "terrain",
-    disableDoubleClickZoom: true,
     mapTypeControl: false,
-    zoomControl: false,
-    fullscreenControl: false
-}
-
-interface useGoogleMapOptionPropsInterface {
-    onClick?: Function | undefined
-}
-interface useGoogleMapInterface {
-    map: google.maps.Map | undefined;
-    addFlightPlanCordinates: Function;
+    fullscreenControl: false,
+    streetViewControl : false,
+    scaleControl: false,
+    zoomControl: true,
+    clickableIcons : false
 }
 
 let flightPath: google.maps.Polyline;
 
-const useGoogleMap = (ele: RefObject<HTMLDivElement | undefined>, options?: useGoogleMapOptionPropsInterface | undefined): useGoogleMapInterface => {
-
+const useGoogleMap = (ele: RefObject<HTMLDivElement>, options?: GoogleMapOptionProps): GoogleMap => {
     const [map, setMap] = useState<google.maps.Map>();
 
     // Hook will load the google map on the dom
     useEffect(() => {
         if (ele.current && !map) {
-            setMap(new window.google.maps.Map(ele.current, mapOptions));
+            setMap(new window.google.maps.Map(ele.current, {
+                ...mapOptions,  
+                zoomControlOptions: {
+                    position: google?.maps.ControlPosition.TOP_RIGHT,
+                },
+            }));
         }
     }, [ele, map])
 
@@ -38,7 +37,9 @@ const useGoogleMap = (ele: RefObject<HTMLDivElement | undefined>, options?: useG
         return () => map && google.maps.event.clearInstanceListeners(map);
     }, [ options, map])
 
-    // Function will plot path according to the given cordinates
+    /**
+     * Function will plot path according to the given cordinates
+     * */ 
     const addFlightPlanCordinates = (cordinates: google.maps.LatLng[]) => {
         if (map) {
             flightPath && flightPath.setMap(null);

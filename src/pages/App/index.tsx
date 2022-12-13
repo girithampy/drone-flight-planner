@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Components
 import Header from "./../../components/ui/Header"
 import SideBar from "./../../components/ui/SideBar"
 import Map from "./../../components/ui/Map"
 
+// Store
+import { useStoreSelector } from "./../../store/hooks";
+
 import './style.scss';
 
 const App: React.FC<{}> = () => {
-    // const flights = useStoreSelector(state => state.flights)
-    // useEffect(() => {
-    //   console.log("flights ",flights)
-    // },[flights])
+    const state = useStoreSelector(state => state.appState)
     return (
         <div className="app-container">
-            <div className="header-container">
-                <Header />
-            </div>
+            <Header/>
             <div className="body-container">
-                <div className="side-bar-container">
+                <div className={`side-bar-container ${state.sideBarOpen && 'open'}`}>
                     <SideBar />
                 </div>
                 <div className="map-container">

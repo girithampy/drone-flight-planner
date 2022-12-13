@@ -1,3 +1,36 @@
-.header {
-    height: 100%;
+.header-container {
+    height: 3.5rem;
+    padding: 0 0.5rem;
+    background-color: #000000;
+    box-shadow: 0 2px 5px #0000004d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .icon {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+    .title-section {
+        display: flex;
+        align-items: center;
+        .menu-icon {
+            border-radius: 6px;
+            padding: 0.2rem;
+            display: flex;
+            border: 1px solid #ffffff;
+            margin-right: 1rem;
+            .img {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+        .title {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+    
 }

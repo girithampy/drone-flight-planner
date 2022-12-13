@@ -6,7 +6,27 @@
     }
     .action-container {
         position: absolute;
-        bottom: 50px;
-        right: 50px;
+        bottom: 1.87rem;
+        right: 1.87rem;
+        .action {
+            cursor: pointer;
+            width: 3.12rem;
+            height: 3.12rem;
+            background-color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 7px 5px #0000004d;
+            transition: all 1s ease-in-out;
+            img {
+                width: 60%;
+                height: 60%;
+            }
+
+        }
+        &:hover {
+            transform: scale(1.1);
+        }
     }
 }

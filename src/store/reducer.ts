@@ -1,8 +1,10 @@
 import { combineReducers} from "@reduxjs/toolkit";
 
 // Reducers
-import flightReducer from "./flights/reducer";
+import appReducer from "./slices/appSlice";
+import flightReducer from "./slices/flightsSlice";
 
 export default combineReducers({
-    flights : flightReducer
+    appState : appReducer,
+    flights : flightReducer,
 });

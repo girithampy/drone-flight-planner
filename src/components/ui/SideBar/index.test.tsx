@@ -20,6 +20,7 @@ describe('<SideBar />', () => {
     })
     test('It should not render flight list container if store state is empty', () => {
         renderWithProviders(<SideBar />,{ preloadedState});
+        expect(screen.getByTestId("sidebar-flight-empty-container")).toBeInTheDocument();
         expect(screen.queryByTestId("sidebar-flight-list-container")).not.toBeInTheDocument();
     })
     test('It should render flight list container if store state is not empty', () => {
@@ -34,6 +35,7 @@ describe('<SideBar />', () => {
             }
         }
         renderWithProviders(<SideBar />,{ preloadedState });
+        expect(screen.queryByTestId("sidebar-flight-empty-container")).not.toBeInTheDocument();
         expect(screen.getByTestId("sidebar-flight-list-container")).toBeInTheDocument();
     })
    

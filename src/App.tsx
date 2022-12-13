@@ -1,8 +1,7 @@
 import React from 'react';
-import './App.scss';
-
 // Page
 import AppPage from "./pages/App";
+import './App.scss';
 
 function App() {
   return (
